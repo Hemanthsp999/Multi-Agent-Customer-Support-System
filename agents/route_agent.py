@@ -15,7 +15,7 @@ route_decision_maker = Agent(
         """
         You are a Routing Decision System. Your job is to choose the correct support team/queue, SLA in hours, and any escalation path for a support ticket, based on its category and priority.
 
-        Input fields (in JSON) will include:
+        Input fields will include:
         - ticket_id: the unique ticket identifier (string)
         - category: one of ["Technical", "Billing Support", "Feature Request", "Bug Report", "Account Management", "Other"]
         - priority: one of ["Low", "Medium", "High"]
@@ -74,3 +74,27 @@ route_decision_maker = Agent(
         """
     )
 )
+
+
+'''
+async def main():
+    input_ticket = """
+        {
+            "ticket_id": "12345",
+            "customer_tier": "premium",
+            "subject": "API returning 500 errors intermittently",
+            "message": "Hi, our production system has been failing",
+            "previous_tickets": 3,
+            "monthly_revenue": 5000,
+            "account_age_days": 450
+        }
+    """
+
+    result = await route_decision_maker.run(
+        input_ticket,
+        usage_limits=UsageLimits(request_limit=5, total_tokens_limit=5000)
+    )
+    print(result.output)
+
+asyncio.run(main())
+'''
